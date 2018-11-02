@@ -9,7 +9,7 @@ import 'todomvc-app-css/index.css';
 
 const todoIns = new TodoList();
 ReactDOM.render(
-	<Provider todoIns={todoIns}>
+    <Provider todoIns={todoIns}>
         <App />
     </Provider>, 
     document.getElementById('app')
