@@ -31,11 +31,20 @@ module.exports = {
                 use: 'babel-loader',
             },
             {
-                test: /\.(le|c)ss$/,
+                test: /\.css$/,
                 use: [
                     isDevEnv ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     'postcss-loader',
+                ],
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    isDevEnv ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    { loader: 'less-loader', options: { javascriptEnabled: true } },
                 ],
             },
             {
@@ -51,6 +60,7 @@ module.exports = {
                         },
                     },
                     'postcss-loader',
+                    { loader: 'less-loader', options: { javascriptEnabled: true } },
                 ],
             },
         ],
