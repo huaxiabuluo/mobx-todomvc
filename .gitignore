@@ -37,8 +37,11 @@ thumbs.db
 .CVS
 .idea/
 dist/
+build/
 .vscode/
 node_modules/
 jscoverage_lib/
+
+# other files to ignore
 stats.json
 package-lock.json
