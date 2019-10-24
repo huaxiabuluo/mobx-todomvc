@@ -1,17 +1,23 @@
 import React, { useRef, useCallback } from 'react';
 import classnames from 'classnames';
 
-export default function TodoTextInput(props) {
-  const inputRef = useRef();
+interface ITodoInput {
+  onSave?: (t: string) => any,
+  newTodo?: boolean,
+  placeholder?: string,
+  editing?: boolean,
+  text?: string,
+}
+
+export default function TodoTextInput(props: ITodoInput) {
+  const inputRef = useRef(null);
 
   const handleSubmit = useCallback(e => {
-    const text = e.target.value.trim()
-    if (e.which === 13) {
-      props.onSave(text)
-      if (props.newTodo) {
-        inputRef.current.value = '';
-      }
-    }
+    const text: string = e.target.value.trim();
+    if (e.which !== 13) { return; }
+
+    props.onSave(text);
+    props.newTodo && (inputRef.current.value = '');
   }, [inputRef, props]);
 
   const handleBlur = useCallback(e => !props.newTodo && props.onSave(e.target.value), [props]);

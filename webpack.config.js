@@ -9,24 +9,30 @@ const isDevEnv = !process.env.BUILD_DEST;
 
 module.exports = {
   entry: {
-    index: ['./src/boot-loader.js'],
+    index: ['./src/boot-loader.tsx'],
   },
   output: {
     filename: '[name].[hash].js',
     path: path.resolve(__dirname, './build')
   },
   mode: isDevEnv ? 'development' : 'production',
+  devtool: 'inline-source-map',
   resolve: {
     alias: {
-      '@lib': path.resolve(__dirname, './src/lib'),
-      '@module': path.resolve(__dirname, './src/module'),
-      '@view': path.resolve(__dirname, './src/view'),
-      '@components': path.resolve(__dirname, './src/components'),
+      '#': path.resolve(__dirname, './src'),
     },
-    extensions: ['.js', '.es6', '.json', '.jsx'],
+    extensions: ['.js', '.ts', '.tsx'],
+    // Fix webpack's default behavior to not load packages with jsnext:main module
+    // (jsnext:main directs not usually distributable es6 format, but es6 sources)
+    // mainFields: ['module', 'browser', 'main'],
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
